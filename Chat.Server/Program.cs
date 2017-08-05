@@ -11,7 +11,7 @@ namespace Chat.Server
         static void Main(string[] args)
         {
             Socket server = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            server.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080));
+            server.Bind(new IPEndPoint(IPAddress.Any, 8090));
             server.Listen(10);
             Task.Run(() =>
             {
