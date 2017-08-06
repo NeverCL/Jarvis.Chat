@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,6 +11,8 @@ namespace Chat.Server
     {
         static void Main(string[] args)
         {
+            // http://www.cnblogs.com/Leo_wl/p/6732242.html
+            var list = new List<SocketClient>();
             Socket server = new Socket(SocketType.Stream, ProtocolType.Tcp);
             server.Bind(new IPEndPoint(IPAddress.Any, 8090));
             server.Listen(10);
@@ -17,17 +20,28 @@ namespace Chat.Server
             {
                 while (true)
                 {
-                    var clientWapper = new SocketClient(server.Accept());
+                    var client = server.Accept();
+                    var clientWapper = new SocketClient(client);
                     clientWapper.receiveEvent += data =>
                     {
                         System.Console.WriteLine("收到消息:" + Encoding.UTF8.GetString(data));
                     };
                     clientWapper.Send("Hello Server");
+                    list.Add(clientWapper);
                 }
             });
             Console.WriteLine("Hello World!");
-            Console.ReadLine();
+            while (true)
+            {
+                var str = Console.ReadLine();
+                list.ForEach(item => item.Send(str));
+            }
         }
+    }
+
+    class SocketWapper
+    {
+
     }
 
     // SocketWapper
