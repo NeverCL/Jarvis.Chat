@@ -44,14 +44,18 @@ namespace Chat.Client
             Task.Run(() =>
             {
                 var data = new byte[1024];
-                try
+                while (true)
                 {
-                    var rst = clientSocket.Receive(data);
-                    receiveEvent(data);
-                }
-                catch (SocketException)
-                {
-                    System.Console.WriteLine("Server 断开");
+                    try
+                    {
+                        var rst = clientSocket.Receive(data);
+                        receiveEvent(data);
+                    }
+                    catch (SocketException)
+                    {
+                        System.Console.WriteLine("Server 断开");
+                        throw;
+                    }
                 }
             });
         }

@@ -71,6 +71,7 @@ namespace Chat.Server
                     catch (SocketException)
                     {
                         System.Console.WriteLine("Client 离开");
+                        throw;
                     }
                 }
             });
