@@ -11,7 +11,12 @@ namespace Chat.Server
     {
         static void Main(string[] args)
         {
-            // http://www.cnblogs.com/Leo_wl/p/6732242.html
+            // 1. 开启服务器R端口监听，接受远程客户端（一般为本地内网）连接
+            // 2. 当被请求的时候，转发消息传输给远程客户端，同时等待客户端返回
+            // 3. 远程客户端接收请求，做出响应返回。
+            // 4. 服务器端将响应返回给请求
+
+
             var list = new List<SocketClient>();
             Socket server = new Socket(SocketType.Stream, ProtocolType.Tcp);
             server.Bind(new IPEndPoint(IPAddress.Any, 8090));
